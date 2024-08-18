@@ -1,9 +1,9 @@
 import express from 'express';
-import userRoutes from '../routes/userRoutes.ts'
-import {errorHandler,requestLogger} from '../middlewares/middlewares.ts';
+import { requestLogger ,errorHandler} from '../middlewares/middlewares.ts';
+import productRoutes from '../routes/productRoutes.ts';
+
 
 const app = express();
-
 
 
 // don't identify express
@@ -18,9 +18,11 @@ app.use(express.urlencoded({ extended: false }));
 // log incoming requests
 app.use(requestLogger);
 
-app.use('/users', userRoutes);
+// use product routes
+app.use('/products', productRoutes);
 
 // handle uncaught errors
 app.use(errorHandler);
+
 
 export default app;

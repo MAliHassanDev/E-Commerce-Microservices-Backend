@@ -1,5 +1,5 @@
 import { createLogger,transports,format } from 'winston';
-import config from './config';
+import config from './config.ts';
 
 
 
@@ -42,7 +42,10 @@ if (process.env.NODE_ENV !== 'PROD') {
       format.splat(),
       format.printf((info) => {
         const { level, message, timestamp,...rest} = info;
-        return `${timestamp} [gateway]: ${level}: ${message}`
+        if (Object.keys(rest).length > 0) {
+          return `${timestamp} ${level}: ${message} ${JSON.stringify(rest)}`
+        }
+        return `${timestamp} [product-service]: ${level}: ${message}`
       })
     )
   }))

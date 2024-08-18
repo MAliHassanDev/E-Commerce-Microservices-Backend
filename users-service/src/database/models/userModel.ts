@@ -4,6 +4,7 @@ interface User {
   name: string;
   email: string;
   password: string;
+  avatar?: string;
 }
 
 const userSchema = new Schema<User>(
@@ -24,6 +25,10 @@ const userSchema = new Schema<User>(
       required: true,
       trim: true,
     },
+    avatar: {
+      type: String,
+      trim: true,
+    }
   },
   {
     timestamps: true,

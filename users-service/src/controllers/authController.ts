@@ -29,7 +29,6 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
       data: {
         name: newUser.name,
         email: newUser.email,
-        password: null,
       }
     })
   } catch (error) {
@@ -69,7 +68,6 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
       data: {
         name: user.name,
         email: user.email,
-        password: null,
       },
     })
     

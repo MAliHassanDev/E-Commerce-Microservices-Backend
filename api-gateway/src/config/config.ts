@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { join } from 'path';
 
 dotenv.config({
-  path: join(import.meta.dirname, '..', '.env')
+  path: join(import.meta.dirname, '..', '..','.env')
 })
 
 
@@ -10,7 +10,7 @@ class ConfigManager{
   private readonly serverConfig: { port: number; host: string };
   private readonly loggerConfig: { level: string,errorLogFile: string,combinedLogFile:string };
   private readonly databaseConfig: { Mongodb_URI: string, }
-  private readonly jwtConfig: { secret: string,expiresIn:number };
+  private readonly jwtConfig: { secret: string, expiresIn: number };
   private readonly env: string = process.env.NODE_ENV || 'DEV';
   private static  instance: ConfigManager;
 

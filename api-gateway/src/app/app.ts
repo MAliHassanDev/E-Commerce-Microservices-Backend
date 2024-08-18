@@ -1,5 +1,5 @@
 import express from 'express';
-import requestLogger from '../middlewares/requestLogger';
+import {requestLogger,errorHandler} from '../middlewares/midlewares';
 import setUpProxies from '../proxies/proxies';
 import services from '../services/services';
 import setUpAuth from '../auth/authenticate';
@@ -18,6 +18,8 @@ setUpAuth(app, services);
 setUpProxies(app, services);
 
 
+// handle uncaught errors
+app.use(errorHandler);
 
 
 

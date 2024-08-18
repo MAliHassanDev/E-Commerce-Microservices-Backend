@@ -11,6 +11,7 @@ class ConfigManager {
   private readonly databaseConfig: { Mongodb_URI: string };
   private readonly jwtConfig: { secret: string; expiresIn: number };
   private readonly bcryptConfig: {saltRounds: number}
+  private readonly productConfig: { limit: number };
   private readonly env: string = process.env.NODE_ENV || "DEV";
   private static instance: ConfigManager;
 
@@ -33,6 +34,9 @@ class ConfigManager {
     };
     this.bcryptConfig = {
       saltRounds: ConfigManager.getNumberEnv('BCRYPT_SALT_ROUNDS', 10),
+    };
+    this.productConfig = {
+      limit: ConfigManager.getNumberEnv('PRODUCT_LIMIT',100),
     }
 
   }
@@ -69,7 +73,10 @@ class ConfigManager {
     return this.jwtConfig;
   }
 
-  
+  public getProductConfig() {
+    return this.productConfig;
+  }
 }
 
 export default ConfigManager.getInstance();
+
