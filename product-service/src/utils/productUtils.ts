@@ -20,19 +20,19 @@ export interface HomeCategory {
 
 export const homeCategories: Array<HomeCategory> = [
   {
-    heading: "premimumCars",
+    heading: "Premium Cars",
     filter: { category: "cars" },
     query: {
       sort: { price: 1 },
       limit: config.getProductConfig().limit,
     },
   },
-  {
-    heading: "featuredTrucks",
-    filter: { category: "trucks" },
-    query: {
-      sort: { salesCount: -1 },
-      limit: config.getProductConfig().limit,
-    },
-  },
+  // {
+  //   heading: "Featured Trucks",
+  //   filter: { category: "trucks" },
+  //   query: {
+  //     sort: { salesCount: -1 },
+  //     limit: config.getProductConfig().limit,
+  //   },
+  // },
 ];

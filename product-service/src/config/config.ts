@@ -17,7 +17,7 @@ class ConfigManager {
 
   constructor() {
     this.serverConfig = {
-      port: ConfigManager.getNumberEnv("PORT", 3000),
+      port: ConfigManager.getNumberEnv("PORT", 3002),
       host: process.env.HOST || `127.0.0.1`,
     };
     this.loggerConfig = {

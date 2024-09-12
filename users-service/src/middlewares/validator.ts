@@ -23,13 +23,13 @@ const validateName = (name: string): string|null => {
 
 const validateEmail = (email: string): string|null => {
   if (!email) return 'Email is required';
-  if (!isEmailValid(email)) 'Email is Invalid';
+  if (!isEmailValid(email)) return'Email is Invalid';
   return null;
 }
 
 const validatePassword = (password: string): string|null => {
   if (!password) return `Password is required`;
-  if(!isPasswordStrong) return 'Password is weak'
+  if(!isPasswordStrong(password)) return 'Password is weak'
   return null;
 }
 

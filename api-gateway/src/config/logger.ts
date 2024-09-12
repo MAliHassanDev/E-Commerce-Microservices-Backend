@@ -1,5 +1,5 @@
 import { createLogger,transports,format } from 'winston';
-import config from './config';
+import config from './config.ts';
 
 
 

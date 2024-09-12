@@ -28,7 +28,7 @@ const services: Array<Service> = [
         '^/api/users': '/users'
       },
       pathFilter(pathname, req) {
-        return /^\/api\/users\/(?:signin|signup)$/.test(pathname) && req.method === "POST";
+        return /^\/api\/users\/(?:signin|signup|signout)$/.test(pathname) && req.method === "POST";
       },
     }
   },
@@ -45,6 +45,7 @@ const services: Array<Service> = [
       pathRewrite: {
         '^/api/products': '/products'
       },
+     pathFilter: "/api/products"
     }
   }
 ]

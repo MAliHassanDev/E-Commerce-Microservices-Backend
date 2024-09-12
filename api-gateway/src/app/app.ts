@@ -1,15 +1,15 @@
 import express from 'express';
-import {requestLogger,errorHandler} from '../middlewares/midlewares';
-import setUpProxies from '../proxies/proxies';
-import services from '../services/services';
-import setUpAuth from '../auth/authenticate';
-
+import {requestLogger,errorHandler} from '../middlewares/middlewares.ts';
+import setUpProxies from '../proxies/proxies.ts';
+import services from '../services/services.ts';
+import setUpAuth from '../auth/authenticate.ts';
+import morgan from 'morgan';
 
 
 const app = express();
 
 // log requests
-app.use(requestLogger);
+app.use(morgan('dev'));
 
 // authenticate request
 setUpAuth(app, services);

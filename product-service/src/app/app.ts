@@ -1,5 +1,6 @@
 import express from 'express';
-import { requestLogger ,errorHandler} from '../middlewares/middlewares.ts';
+import { errorHandler} from '../middlewares/middlewares.ts';
+import morgan from 'morgan';
 import productRoutes from '../routes/productRoutes.ts';
 
 
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // log incoming requests
-app.use(requestLogger);
+app.use(morgan('dev'));
 
 // use product routes
 app.use('/products', productRoutes);

@@ -1,6 +1,7 @@
 import express from 'express';
 import userRoutes from '../routes/userRoutes.ts'
-import {errorHandler,requestLogger} from '../middlewares/middlewares.ts';
+import morgan from 'morgan';
+import { errorHandler } from '../middlewares/middlewares.ts';
 
 const app = express();
 
@@ -16,8 +17,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // log incoming requests
-app.use(requestLogger);
+app.use(morgan('dev'));
 
+//  set routes
 app.use('/users', userRoutes);
 
 // handle uncaught errors
