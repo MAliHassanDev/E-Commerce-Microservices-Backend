@@ -1,6 +1,6 @@
-import app from "./app/app";
-import config from "./config/config";
-import logger from "./config/logger";
+import app from "./app/app.ts";
+import config from "./config/config.ts";
+import logger from "./config/logger.ts";
 
 const { host,port } = config.getServerConfig();
 app.listen(port, host, () => {

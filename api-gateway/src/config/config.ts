@@ -11,7 +11,7 @@ class ConfigManager{
   private readonly loggerConfig: { level: string,errorLogFile: string,combinedLogFile:string };
   private readonly databaseConfig: { Mongodb_URI: string, }
   private readonly jwtConfig: { secret: string, expiresIn: number };
-  private readonly env: string = process.env.NODE_ENV || 'DEV';
+  private readonly env: string = process.env.NODE_ENV?.toUpperCase() || 'DEV';
   private static  instance: ConfigManager;
 
   constructor() {

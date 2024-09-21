@@ -1,11 +1,10 @@
 import express from 'express';
-import { errorHandler} from '../middlewares/middlewares.ts';
+import userRoutes from '../routes/userRoutes.ts'
 import morgan from 'morgan';
-import productRoutes from '../routes/productRoutes.ts';
-import cors from 'cors'
-
+import { errorHandler } from '../middlewares/middlewares.ts';
 
 const app = express();
+
 
 
 // don't identify express
@@ -20,11 +19,10 @@ app.use(express.urlencoded({ extended: false }));
 // log incoming requests
 app.use(morgan('dev'));
 
-// use product routes
-app.use('/products', productRoutes);
+//  set routes
+app.use('/users', userRoutes);
 
 // handle uncaught errors
 app.use(errorHandler);
-
 
 export default app;

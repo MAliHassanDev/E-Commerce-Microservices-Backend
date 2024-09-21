@@ -15,7 +15,7 @@ export const validateIdParam = (req: Request, res: Response, next: NextFunction)
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({
       success: false,
-      message: "Invalid Id format. Id Must be 24 character hexadecimal string",
+      message: "Invalid request parameter: id",
       data: null,
     });
   }

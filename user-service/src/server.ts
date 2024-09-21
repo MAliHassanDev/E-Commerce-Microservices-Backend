@@ -1,7 +1,7 @@
 import app from "./app/app.ts";
 import config from "./config/config.ts";
 import logger from "./config/logger.ts";
-import { connectDb } from "./database/connection.ts";
+import { connectDb } from "./database/connect.ts";
 
 const { host, port } = config.getServerConfig();
 

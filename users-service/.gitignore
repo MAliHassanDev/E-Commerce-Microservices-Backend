@@ -1,6 +1,0 @@
-*.env
-*.vscode
-node_modules
-import
-logs
-coverage
