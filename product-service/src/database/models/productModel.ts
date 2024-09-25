@@ -5,7 +5,7 @@ export interface IProduct {
   title: string;
   description: string;
   salesCount: number;
-  rating: number;
+  rating: number | null;
   category: string;
   variations: Array<IVariant>
 }

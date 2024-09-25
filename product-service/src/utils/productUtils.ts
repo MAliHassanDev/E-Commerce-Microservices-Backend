@@ -27,12 +27,12 @@ export const homeCategories: Array<HomeCategory> = [
       limit: config.getProductConfig().limit,
     },
   },
-  // {
-  //   heading: "Featured Trucks",
-  //   filter: { category: "trucks" },
-  //   query: {
-  //     sort: { salesCount: -1 },
-  //     limit: config.getProductConfig().limit,
-  //   },
-  // },
+  {
+    heading: "Featured Trucks",
+    filter: { category: "trucks" },
+    query: {
+      sort: { salesCount: -1 },
+      limit: config.getProductConfig().limit,
+    },
+  },
 ];

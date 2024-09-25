@@ -5,6 +5,7 @@ import { FilterQuery, ProjectionType, QueryOptions } from "mongoose";
 import { sortOptions } from "../utils/productUtils.ts";
 import config from "../config/config.ts";
 import { homeCategories } from "../utils/productUtils.ts";
+import Category from "../database/models/categoryModel.ts";
 
 interface IQuery extends ParsedUrlQuery {
   category?: string;
@@ -98,7 +99,7 @@ export const getProductByCategory = async (req: Request, res: Response, next: Ne
 
 export const getProductCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const categories = await Product.distinct("category");
+    const categories = await Category.find({},{"__v": 0,"_id": 0});
     res.status(200).json({
       success: true,
       message: "Categories retrieved successfully",

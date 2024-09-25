@@ -1,10 +1,12 @@
 import { Schema, model } from 'mongoose';
 
 
-interface ICategory{
+export interface ICategory{
   title: string,
   image: string,
 }
+
+
 
 const categorySchema = new Schema<ICategory>({
   title: {
