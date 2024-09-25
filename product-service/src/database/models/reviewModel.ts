@@ -3,12 +3,12 @@ import Product from "./productModel.ts";
 
 
 
-interface IReview{
+export interface IReview{
   user: mongoose.Types.ObjectId,
   product: mongoose.Types.ObjectId,
-  score: number,
+  stars: number,
   content: string,
-  images: Array<String>
+  images?: string[]
 }
 
 const reviewSchema = new Schema<IReview>({
@@ -27,18 +27,23 @@ const reviewSchema = new Schema<IReview>({
     required: true,
     trim: true,
   },
-  score: {
+  stars: {
     type: Number,
     max: 5,
-    min: 0,
+    min: 1,
     required: true,
   },
-  images: [
-    {
-      type: String,
-      trim: true,
-    }
-  ]
+  images: {
+    type: [
+      {
+        type: String,
+        trim: true,
+      }
+    ],
+    default: [],
+  }
+}, {
+  timestamps: true,
 })
 
 const Review = model<IReview>('reviews', reviewSchema);
