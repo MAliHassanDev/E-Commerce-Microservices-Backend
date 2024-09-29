@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ParsedUrlQuery } from "querystring";
-import Product, { IProduct } from "../database/models/productModel.ts";
-import { FilterQuery, ProjectionType, QueryOptions } from "mongoose";
-import { sortOptions } from "../utils/productUtils.ts";
+import mongoose from "mongoose";
+import { aggregateProducts, sortOptions } from "../utils/productUtils.ts";
 import config from "../config/config.ts";
 import { homeCategories } from "../utils/productUtils.ts";
 import Category from "../database/models/categoryModel.ts";
@@ -19,12 +18,8 @@ export const getProducts = async (req: Request, res: Response, next: NextFunctio
   const sortOption = sort ? sortOptions[sort] : {};
   const limit = quantity ? Number(quantity) : config.getProductConfig().limit;
 
-  const filter: FilterQuery<IProduct> = {};
-  const projection: ProjectionType<IProduct> = { __v: 0 };
-  const options: QueryOptions = { limit, ...sortOption };
-
   try {
-    const products = await Product.find(filter, projection, options);
+    const products = await aggregateProducts({},{},{limit,...sortOption});
 
     if (products.length > 0) {
       return res.status(200).json({
@@ -48,7 +43,8 @@ export const getProductById = async (req: Request, res: Response, next: NextFunc
   const { id } = req.params;
 
   try {
-    const product = await Product.findOne({ _id: id }, { __v: 0 }).lean();
+    const aggregateProductArray = await aggregateProducts({_id: new mongoose.Types.ObjectId(id)});
+    const product = aggregateProductArray[0];
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -56,7 +52,6 @@ export const getProductById = async (req: Request, res: Response, next: NextFunc
         data: null,
       });
     }
-
     res.status(200).json({
       success: true,
       message: "Product retrieved successfully",
@@ -71,15 +66,11 @@ export const getProductByCategory = async (req: Request, res: Response, next: Ne
   const { category } = req.params;
   const { quantity, sort } = req.query as IQuery;
 
-  const sortOption = sort && sortOptions[sort] || {};
+  const sortOption = (sort && sortOptions[sort]) || {};
   const limit = quantity ? Number(quantity) : config.getProductConfig().limit;
 
-  const filter: FilterQuery<IProduct> = { category };
-  const projection: ProjectionType<IProduct> = { __v: 0 };
-  const options: QueryOptions = { limit, ...sortOption };
-
   try {
-    const products = await Product.find(filter, projection, options).lean();
+    const products = await aggregateProducts({category},{},{limit,...sortOption});
     if (products.length === 0) {
       return res.status(404).json({
         success: false,
@@ -99,7 +90,7 @@ export const getProductByCategory = async (req: Request, res: Response, next: Ne
 
 export const getProductCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const categories = await Category.find({},{"__v": 0,"_id": 0});
+    const categories = await Category.find({}, { __v: 0, _id: 0 });
     res.status(200).json({
       success: true,
       message: "Categories retrieved successfully",
@@ -114,7 +105,7 @@ export const getHomePageProducts = async (req: Request, res: Response, next: Nex
   try {
     const productsByCategory = await Promise.all(
       homeCategories.map(async ({ heading, filter, query }) => {
-        const products = await Product.find(filter, { __v: 0 }, query).lean().exec();
+        const products = await aggregateProducts(filter, { }, query);
         return { heading, products };
       })
     );
