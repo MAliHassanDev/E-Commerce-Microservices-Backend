@@ -1,1 +1,6 @@
-.vscode/*
+.vscode
+.idea
+.idea/vcs.xml
+.vscode/settings.json
+.vscode/settings.json
+.vscode/settings.json

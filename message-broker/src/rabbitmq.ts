@@ -9,15 +9,21 @@ interface IRabbitMQ {
   connect(url?:string): Promise<void>;
   disconnect(): Promise<void>;
   getChannel(): amqp.Channel;
-  publishMessage(routingKey: string, message: any): void;
+  publishMessage(routingKey: string, message: unknown): void;
   ackMessage(msg: amqp.Message): void;
-  sendToQueue(queue:string,content:any,options:amqp.Options.Publish): boolean;
+  sendToQueue(queue:string,content:unknown,options:amqp.Options.Publish): boolean;
   subscribe(
     queue: string,
     routingkeys: string | string[],
     handler: () => void
   ): Promise<void>;
 }
+
+interface IAnyRecord{
+  [filed:string]: unknown,
+}
+
+type MixedContent = string | number | IAnyRecord | [];
 
 class RabbitMQ implements IRabbitMQ {
   private static connection: amqp.Connection;
@@ -44,7 +50,7 @@ class RabbitMQ implements IRabbitMQ {
     return RabbitMQ.channel;
   }
 
-  public sendToQueue(queue:string,content:any,options:amqp.Options.Publish = {}): boolean{
+  public sendToQueue(queue:string,content:MixedContent,options:amqp.Options.Publish = {}): boolean{
     return RabbitMQ.channel.sendToQueue(
       queue,
       Buffer.from(content.toString()),
@@ -52,7 +58,7 @@ class RabbitMQ implements IRabbitMQ {
     )
   }
 
-  public publishMessage(routingKey: string, message: any,options:amqp.Options.Publish = {persistent: true}): void {
+  public publishMessage(routingKey: string, message: MixedContent,options:amqp.Options.Publish = {persistent: true}): void {
     if (RabbitMQ.channel == undefined) {
       throw new Error("RabbitMQ channel in uninitialized");
     }
@@ -64,7 +70,7 @@ class RabbitMQ implements IRabbitMQ {
     );
   }
 
-  public async rpcRequest(routingKey: string,payload:any):Promise<string> {
+  public async rpcRequest(routingKey: string,payload:MixedContent):Promise<string> {
     // callback queue
     const { queue } = await RabbitMQ.channel.assertQueue('', {
       exclusive: true,
