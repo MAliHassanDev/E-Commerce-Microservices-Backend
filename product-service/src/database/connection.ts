@@ -7,3 +7,8 @@ export const connectDb = async () => {
   await mongoose.connect(Mongodb_URI);
 }
 
+
+export const disconnectDb = async () => {
+  await mongoose.connection.close();
+}
+
