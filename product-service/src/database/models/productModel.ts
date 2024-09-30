@@ -1,4 +1,5 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Document, Schema, model } from "mongoose";
+
 
 export interface IProduct {
   title: string;
@@ -49,6 +50,8 @@ const variantSchema = new Schema<IVariant>({
     required: true,
     trim: true,
   },
+},{
+  versionKey: false
 });
 
 const productSchema = new Schema<IProduct>({
@@ -107,6 +110,9 @@ const productSchema = new Schema<IProduct>({
       default: 0,
     },
   },
+},{
+  versionKey: false,
+  
 });
 
 const Product = model<IProduct>("products", productSchema);

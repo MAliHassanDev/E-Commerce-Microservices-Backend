@@ -109,7 +109,6 @@ export const getHomePageProducts = async (req: Request, res: Response, next: Nex
         return { heading, products };
       })
     );
-
     res.status(200).json({
       success: true,
       message: "Products retrieved successfully",

@@ -2,24 +2,29 @@ import mongoose, { Schema, model } from "mongoose";
 import Product from "./productModel.ts";
 
 
+export interface IReviewer {
+  _id: string,
+  name: string,
+  avatar: string,
+  email: string,
+}
 
 export interface IReview{
-  user: mongoose.Types.ObjectId,
-  product: mongoose.Types.ObjectId,
+  reviewerId: mongoose.Types.ObjectId,
+  productId: mongoose.Types.ObjectId,
   stars: number,
   content: string,
   images?: string[]
 }
 
+
 const reviewSchema = new Schema<IReview>({
-  user: {
+  reviewerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
     required: true,
   },
-  product: {
+  productId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: Product,
     required: true,
   },
   content: {
@@ -44,6 +49,7 @@ const reviewSchema = new Schema<IReview>({
   }
 }, {
   timestamps: true,
+  versionKey: false,
 })
 
 const Review = model<IReview>('reviews', reviewSchema);
