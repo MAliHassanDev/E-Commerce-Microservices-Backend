@@ -35,6 +35,7 @@ const validatePassword = (password: string): string|null => {
   return null;
 }
 
+
 const addError = (errors: any[], field: string, message: string) => {
   errors.push({
     field,
@@ -53,7 +54,7 @@ export const validateRegistrationData = (req: Request, res: Response, next: Next
 
   
   for (const [field,validateField] of Object.entries(fieldValidationMap)) {
-    const errorMessage = validateField(req.body[field]);
+    const errorMessage = validateField(req.body[field]?.trim());
     if (errorMessage) addError(errors, field,errorMessage,);
   }
 
@@ -72,7 +73,6 @@ export const validateSignInData = (req: Request, res: Response, next: NextFuncti
   
   const fieldValidationMap = {
     email: validateEmail,
-    // password: validatePassword,
   }
 
   for (const [field, validateField] of Object.entries(fieldValidationMap)) {

@@ -19,7 +19,7 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
     const { saltRounds } = config.getBcryptConfig();
     const hashPassword = await bcrypt.hash(password, saltRounds);
 
-    const newUser = new User({ name, email, password: hashPassword });
+    const newUser = new User({ name, email, password: hashPassword});
     await newUser.save();
     const { secret, expiresIn } = config.getJwtConfig();
     const jsonWebToken = await generateJasonToken({ id: newUser._id }, secret, expiresIn);
@@ -28,8 +28,10 @@ export const registerNewUser = async (req: Request, res: Response, next: NextFun
       message: "User registered successfully",
       jsonWebToken,
       data: {
+        _id: newUser._id,
         name: newUser.name,
         email: newUser.email,
+        avatar: newUser.avatar,
       },
     });
   } catch (error) {
@@ -41,7 +43,7 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).lean().exec();
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -62,15 +64,12 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
     // generate new token for user
     const { secret, expiresIn } = config.getJwtConfig();
     const jsonWebToken = await generateJasonToken({ id: user._id }, secret, expiresIn);
-
+    const {password:undefined,...data} = user 
     res.status(200).json({
       success: true,
       message: "User login successful",
       jsonWebToken,
-      data: {
-        name: user.name,
-        email: user.email,
-      },
+      data,
     });
   } catch (error) {
     next(error);

@@ -12,7 +12,6 @@ export async function sendUserProfiles(msg: amqp.ConsumeMessage | null) {
 
   const msgContent = JSON.parse(msg.content.toString());
   const userIds: string[] = Array.isArray(msgContent) ? msgContent : [msgContent];
-   
 
   const userProfiles = await Promise.all(userIds.map((userId) => {
     return User.findOne({ "_id": userId },{"name": 1,"email": 1,"avatar": 1,"_id": 1});
