@@ -18,7 +18,6 @@ interface IRabbitMQ {
     handler: () => void
   ): Promise<void>;
 }
-
 interface IAnyRecord{
   [filed:string]: unknown,
 }

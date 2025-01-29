@@ -7,7 +7,6 @@ import cors from 'cors'
 
 const app = express();
 
-
 // don't identify express
 app.disable('x-powered-by');
 
